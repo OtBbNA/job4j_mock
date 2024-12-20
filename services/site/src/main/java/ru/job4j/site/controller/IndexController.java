@@ -21,9 +21,9 @@ import static ru.job4j.site.controller.RequestResponseTools.getToken;
 public class IndexController {
     private final CategoriesService categoriesService;
     private final InterviewsService interviewsService;
-    private final ProfilesService profilesService;
     private final AuthService authService;
     private final NotificationService notifications;
+    private final ProfilesService profilesService;
 
     @GetMapping({"/", "index"})
     public String getIndexPage(Model model, HttpServletRequest req) throws JsonProcessingException {
@@ -45,7 +45,7 @@ public class IndexController {
         var interviewsDTO = interviewsService.getByType(1);
         var profiles = interviewsDTO.stream().collect(Collectors.toMap(
                 i -> i.getId(),
-                i -> profilesService.getProfileById(i.getSubmitterId()).get()
+                i -> profilesService.getProfileById(i.getSubmitterId()).orElseThrow()
         ));
         model.addAttribute("new_interviews", interviewsDTO);
         model.addAttribute("profiles", profiles);
