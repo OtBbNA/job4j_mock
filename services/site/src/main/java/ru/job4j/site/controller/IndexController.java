@@ -45,7 +45,7 @@ public class IndexController {
         var interviewsDTO = interviewsService.getByType(1);
         var profiles = interviewsDTO.stream().collect(Collectors.toMap(
                 i -> i.getId(),
-                i -> profilesService.getProfileById(i.getSubmitterId())
+                i -> profilesService.getProfileById(i.getSubmitterId()).get()
         ));
         model.addAttribute("new_interviews", interviewsDTO);
         model.addAttribute("profiles", profiles);
