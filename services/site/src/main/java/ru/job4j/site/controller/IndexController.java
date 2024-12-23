@@ -43,7 +43,8 @@ public class IndexController {
                 var interviews = interviewsService.getByType(category.getId());
                 int i = 0;
                 for (InterviewDTO interview : interviews) {
-                    if (LocalDateTime.parse(interview.getCreateDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")).isAfter(LocalDateTime.now().minusDays(7))) {
+                    LocalDateTime createDate = LocalDateTime.parse(interview.getCreateDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
+                    if (createDate.isAfter(LocalDateTime.now().minusDays(7)) && createDate.isBefore(LocalDateTime.now().plusSeconds(1))) {
                         i++;
                     }
                 }
